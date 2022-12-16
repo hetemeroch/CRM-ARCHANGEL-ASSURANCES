@@ -13,21 +13,22 @@ db.connect(function (err) { if (err) throw err; console.log("Connecté à la bas
 
 /* fin connexion à mysql */
 
-router.post("/identification", async (req, res) => {
-    const username = req.body.username
-    const password = req.body.password
+router.post("/changepassword", async (req, res) => {
+    const email = req.body.email
+    const pass = req.body.pass
 
-    db.query(`SELECT * FROM t_salarier WHERE username = '${username}' AND password = '${password}'  `, (error, data) => {
+    db.query(`UPDATE t_salarier SET password = '${pass}' WHERE emailpro = '${email}'`, (error, data) => {
         if (error) {
             console.log("error ocurred", error);
-            res.send("Authentication error !")
+            res.send("Change password error !")
 
         } else {
             console.log('Resultats: ', data);
-            if (data.length === 0) res.send('Authentication error ! ')
-            else res.send(data)
+            res.send("Change password error !");
+
         }
     })
+
 })
 
 module.exports = router
