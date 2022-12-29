@@ -13,11 +13,9 @@ db.connect(function (err) { if (err) throw err; console.log("Connecté à la bas
 
 /* fin connexion à mysql */
 
-router.post("/assiduite", async (req, res) => {
-    const debut = req.body.debut
-    const fin = req.body.fin
-    const pseudonyme = req.body.pseudonyme
-    db.query(`SELECT * FROM t_pointage WHERE pseudonyme = '${pseudonyme}' and date BETWEEN '${debut}' AND '${fin}'`, (error, data) => {
+router.post("/postrecherche", async (req, res) => {
+    let recherche = req.body.mot_cle
+    db.query(`SELECT * FROM t_porteffeuille WHERE nomclient LIKE '%${recherche}%' OR prenomclient LIKE '%${recherche}%' OR telephone1 = '%${recherche}%'`, (error, data) => {
         if (error) {
             console.log("error ocurred", error);
             res.send(" error !")
@@ -27,6 +25,11 @@ router.post("/assiduite", async (req, res) => {
             console.log(data)
         }
     })
+
+
+
+
+
 })
 
 module.exports = router
